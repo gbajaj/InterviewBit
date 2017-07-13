@@ -150,7 +150,8 @@ public class Solution {
 		}
 		return max;
 	}
-
+	
+	//Problems to solve before the session one
 	public class Interval {
 		int start;
 		int end;
