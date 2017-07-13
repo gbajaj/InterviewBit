@@ -2,6 +2,7 @@ package com.letsdecode.interviewbit;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -148,5 +149,121 @@ public class Solution {
 			}
 		}
 		return max;
+	}
+
+	public class Interval {
+		int start;
+		int end;
+
+		Interval() {
+			start = 0;
+			end = 0;
+		}
+
+		Interval(int s, int e) {
+			start = s;
+			end = e;
+		}
+	}
+
+	public ArrayList<Interval> insert(ArrayList<Interval> intervals,
+			Interval newInterval) {
+		ArrayList<Interval> res = new ArrayList<Interval>();
+		intervals.add(newInterval);
+		Collections.sort(intervals, new Comparator<Interval>() {
+
+			@Override
+			public int compare(Interval o1, Interval o2) {
+				return o1.start - o2.start;
+			}
+		});
+		res.add(intervals.get(0));
+		for (int i = 1; i < intervals.size(); i++) {
+			Interval p = res.get(res.size() - 1);
+			Interval c = intervals.get(i);
+			if (c.start >= p.start) {
+				if (c.start <= p.end) {
+					p.start = Math.min(c.start, p.start);
+					p.end = Math.max(p.end, c.end);
+				} else {
+					res.add(new Interval(c.start, c.end));
+				}
+			}
+		}
+
+		return res;
+	}
+
+	public int isPalindrome(String s) {
+		if (s == null || s.isEmpty()) {
+			return 1;
+		}
+		int i = 0;
+		int j = s.length() - 1;
+		while (i <= j) {
+			while (i < j && Character.isLetterOrDigit(s.charAt(i)) == false) {
+				i++;
+			}
+			while (i < j && Character.isLetterOrDigit(s.charAt(j)) == false) {
+				j--;
+			}
+			if (i <= j) {
+				if (Character.toLowerCase(s.charAt(i)) != Character
+						.toLowerCase(s.charAt(j))) {
+					return 0;
+				}
+				i++;
+				j--;
+			}
+
+		}
+		return 1;
+	}
+
+	public String reverseWords(String a) {
+		if (a == null || a.isEmpty()) {
+			return a;
+		}
+		StringBuilder sb = new StringBuilder(a.trim());
+		a = sb.reverse().toString();
+		String[] s = a.split(" ");
+		sb.setLength(0);
+		for (int i = 0; i < s.length; i++) {
+			if (s[i].isEmpty() == false) {
+				sb.append((new StringBuilder(s[i]).reverse().toString()));
+			}
+			if (i < s.length - 1 && s[i + 1].isEmpty() == false) {
+				sb.append(" ");
+			}
+		}
+		return sb.toString();
+	}
+
+	public ArrayList<Integer> plusOne(ArrayList<Integer> a) {
+		ArrayList<Integer> res = new ArrayList();
+		int carry = 1;
+		int i = 0 ;
+		for (i = a.size() - 1; i >= 0; i--) {
+			if (a.get(i) == 9) {
+				a.set(i, 0);
+			} else {
+				a.set(i, a.get(i) + 1);
+				carry = 0;
+				break;
+			}
+		}
+		if (carry == 1) {
+			a.add(0, 1);
+		}
+		for (i = 0; i < a.size(); i++) {
+			if (a.get(i) == 0) {
+				continue;
+			} else break;
+		}
+		for (; i < a.size(); i++) {
+			res.add(a.get(i));
+		}
+
+		return res;
 	}
 }
