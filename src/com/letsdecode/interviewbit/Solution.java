@@ -1,10 +1,14 @@
 package com.letsdecode.interviewbit;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+import sun.security.util.Length;
 
 public class Solution {
 	/**
@@ -150,8 +154,8 @@ public class Solution {
 		}
 		return max;
 	}
-	
-	//Problems to solve before the session one
+
+	// Problems to solve before the session one
 	public class Interval {
 		int start;
 		int end;
@@ -221,6 +225,12 @@ public class Solution {
 		return 1;
 	}
 
+	/**
+	 * Reverse the String Week 1 Pre
+	 * 
+	 * @param a
+	 * @return
+	 */
 	public String reverseWords(String a) {
 		if (a == null || a.isEmpty()) {
 			return a;
@@ -240,10 +250,16 @@ public class Solution {
 		return sb.toString();
 	}
 
+	/**
+	 * Add One To Number
+	 * 
+	 * @param a
+	 * @return
+	 */
 	public ArrayList<Integer> plusOne(ArrayList<Integer> a) {
-		ArrayList<Integer> res = new ArrayList();
+		ArrayList<Integer> res = new ArrayList<>();
 		int carry = 1;
-		int i = 0 ;
+		int i = 0;
 		for (i = a.size() - 1; i >= 0; i--) {
 			if (a.get(i) == 9) {
 				a.set(i, 0);
@@ -259,7 +275,8 @@ public class Solution {
 		for (i = 0; i < a.size(); i++) {
 			if (a.get(i) == 0) {
 				continue;
-			} else break;
+			} else
+				break;
 		}
 		for (; i < a.size(); i++) {
 			res.add(a.get(i));
@@ -267,4 +284,7 @@ public class Solution {
 
 		return res;
 	}
+
+
+
 }
