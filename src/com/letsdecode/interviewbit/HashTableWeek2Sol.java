@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public class HashTableWeek2Sol {
-
+	/**
+	 * Pre Work
+	 * @param a
+	 * @return
+	 */
 	public ArrayList<ArrayList<Integer>> anagrams(final List<String> a) {
 		ArrayList<ArrayList<Integer>> list = new ArrayList<>();
 		HashMap<String, ArrayList<Integer>> m = new HashMap<>();
@@ -30,6 +34,12 @@ public class HashTableWeek2Sol {
 		return list;
 	}
 
+	/**
+	 * Pre Work
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	public ArrayList<Integer> twoSum(final List<Integer> a, int b) {
 		ArrayList<Integer> out = new ArrayList<>();
 		HashMap<Integer, Integer> m = new HashMap<>();
@@ -61,6 +71,11 @@ public class HashTableWeek2Sol {
 		return out;
 	}
 
+	/**
+	 * Post Work 
+	 * @param a
+	 * @return
+	 */
 	public int isValidSudoku(final List<String> a) {
 		for (String s : a) {
 			boolean res = isValidRow(s);
@@ -74,8 +89,8 @@ public class HashTableWeek2Sol {
 				return 0;
 			}
 		}
-		for (int i = 0; i < 9; i+=3) {
-			for (int j = 0; j < 9; j+=3) {
+		for (int i = 0; i < 9; i += 3) {
+			for (int j = 0; j < 9; j += 3) {
 				boolean res = isValidSub(i, j, a);
 				if (res == false) {
 					return 0;
@@ -128,5 +143,63 @@ public class HashTableWeek2Sol {
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Post Work
+	 * @param numerator
+	 * @param denominator
+	 * @return
+	 */
+	public String fractionToDecimal(int numerator, int denominator) {
+		if (numerator == 0)
+			return "0";
+		StringBuilder sb = new StringBuilder();
+		sb.append(((numerator > 0) ^ (denominator > 0)) ? "-" : "");
+		long num = Math.abs((long) numerator);
+		long den = Math.abs((long) denominator);
+		sb.append(num / den);
+		num %= den;
+		if (num == 0) {
+			return sb.toString();
+		}
+		sb.append('.');
+		HashMap<Long, Integer> m = new HashMap<>();
+		m.put(num, sb.length());
+		while (num != 0) {
+			num *= 10;
+			sb.append(num / den);
+			num %= den;
+			if (m.containsKey(num)) {
+				int index = m.get(num);
+				sb.insert(index, '(').append(')');
+				break;
+			} else {
+				m.put(num, sb.length());
+			}
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * 
+	 * @param a
+	 * @return
+	 */
+	public int lengthOfLongestSubstring(String a) {
+		HashMap<Character, Integer> m = new HashMap<>();
+		int max = 0;
+		int start = 0;
+		int count = 0;
+		for (int i = 0; i < a.length(); i++) {
+			Character c = a.charAt(i);
+			Integer val = m.get(c);
+			m.put(c, i);
+			if (val != null && val >= start) {
+				start = val + 1;
+			}
+			max = Math.max(max, i + 1 - start);
+		}
+		return max;
+	}
 }

@@ -46,4 +46,24 @@ public class LinkedListSolTest {
 		return h.next;
 
 	}
+
+	@Test
+	public void sort() {
+//		int[] f = { 9, 8, 7, 6, 5, 4, 3 };
+		int[] f = { 9, 8, 7};
+		ListNode l1 = createList(f);
+		LinkedListWeek2Sol sol = new LinkedListWeek2Sol();
+		l1 = sol.sortList(l1);
+		print(l1);
+	}
+
+	@Test
+	public void swapPairs() {
+//		int[] f = { 9, 8, 7, 6, 5, 4, 3 };
+		int[] f = { 9, 8, 7, 5, 10};
+		ListNode l1 = createList(f);
+		LinkedListWeek2Sol sol = new LinkedListWeek2Sol();
+		l1 = sol.swapPairs(l1);
+		print(l1);
+	}
 }
