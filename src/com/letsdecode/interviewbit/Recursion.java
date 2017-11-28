@@ -82,4 +82,40 @@ public class Recursion {
 		return false;
 	}
 
+	ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+
+	ArrayList<ArrayList<Integer>> permute(int[] a) {
+		_permute(a, 0);
+		return res;
+	}
+
+	void _permute(int[] a, int index) {
+		if (index >= a.length) {
+			// add the result;
+			res.add(toList(a));// 123, 132, 2 1 3, 2 3 1;
+			return;
+		}
+		for (int i = index; i < a.length; i++) {
+			swap(a, i, index);
+			_permute(a, index + 1);// 1 , 2
+			swap(a, i, index);
+		}
+
+	}
+
+	void swap(int[] a, int i, int j) {
+		int t = a[i];
+		a[i] = a[j];
+		a[j] = t;
+
+	}
+
+	ArrayList<Integer> toList(int a[]) {
+		ArrayList<Integer> re = new ArrayList<>();
+		for (int i : a) {
+			re.add(i);
+		}
+		return re;
+
+	}
 }

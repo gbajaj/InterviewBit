@@ -285,6 +285,199 @@ public class Solution {
 		return res;
 	}
 
+	public String countAndSay(int n) {
+		String s = "";
+		if (n == 1) {
+			return "1";
+		}
+		if (n > 1) {
+			s = "11";
+			int k = 3;
+			StringBuilder sb = new StringBuilder();
+			while (k <= n) {
+				int c = 1;
+				for (int i = 1; i < s.length(); i++) {
+					if (s.charAt(i) == s.charAt(i - 1)) {
+						c++;
+					} else {
+						sb.append(c).append(s.charAt(i - 1));
+						c = 1;
+					}
+				}
+				sb.append(c).append(s.charAt(s.length() - 1));
+				s = sb.toString();
+				sb.setLength(0);
+				k++;
+			}
+		}
+		return s;
+	}
 
+	public void merge(int[] a, int m, int[] b, int n) {
+		m--;
+		n--;
+		int k = a.length - 1;
 
+		while (m >= 0 || n >= 0) {
+			if (m >= 0 && n >= 0) {
+				if (a[m] > a[n]) {
+					a[k] = a[m];
+					m--;
+				} else {
+					a[k] = b[n];
+					n--;
+				}
+			} else if (m >= 0) {
+				a[k] = a[m];
+				m--;
+			} else {
+				a[k] = b[n];
+				n--;
+			}
+			k--;
+		}
+
+	}
+
+	public boolean isPalindrome(String s) {
+		if (s == null) {
+			return true;
+		}
+		s = s.toLowerCase();
+		int i = 0;
+		int j = s.length() - 1;
+		while (i <= j) {
+			while (i < j && Character.isLetter(s.charAt(i))
+					&& Character.isDigit(s.charAt(i)) == false) {
+				i++;
+			}
+			while (i < j
+					&& Character.isLetter(s.charAt(j)
+							&& Character.isDigit(s.charAt(i))) == false) {
+				j--;
+			}
+			if (i < j && s.charAt(i) != s.charAt(j)) {
+				return false;
+			}
+			i++;
+			j--;
+		}
+		return true;
+
+	}
+
+	List<String> list = new ArrayList<>();
+
+	public List<String> addOperators(String num, int target) {
+		if (num != null && num.isEmpty() == false) {
+			operator(num, "", 0, 0, 0, target);
+		}
+		return list;
+	}
+
+	void operator(String num, String ex, int idx, int res, int prev, int target) {
+		if (idx >= num.length()) {
+			if (res == target) {
+				list.add(ex);
+				return;
+			}
+		}
+		for (int i = idx; i < num.length(); i++) {
+			String first = num.substring(idx, i + 1);
+			Integer cur = Integer.parseInt(first);
+			if (idx == 0) {
+				operator(num, "" + cur, i + 1, res + cur, cur, target);
+			} else {
+				operator(num, ex + "+" + cur, i + 1, res + cur, cur, target);
+				operator(num, ex + "-" + cur, i + 1, res - cur, cur, target);
+				operator(num, ex + "*" + cur, i + 1, (res - prev) + prev * cur,
+						prev * cur, target);
+			}
+		}
+	}
+	
+    int []xa = {0, 1};
+    int []ya = {1, 0};
+    class Wrapper {
+        @Override
+		public String toString() {
+			return "Wrapper [visited=" + visited + ", row=" + row + ", col="
+					+ col + "]";
+		}
+		boolean visited;
+        public int row;
+        public int col;
+        
+    }
+    Wrapper [][] p;
+    int max = 0;;
+    public int maximalRectangle(char[][] matrix) {
+        p = new Wrapper[matrix.length][matrix[0].length];
+        for (int i = 0 ; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (p[i][j] != null) {
+                    _maximalRectangle(matrix, i, j);
+                }
+            }
+        }
+        for (int i = 0 ; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (p[i][j] != null) {
+                	System.out.print(p[i][j] +" "); 
+                } else {
+                	System.out.print("null");
+                }
+            }
+            System.out.println();
+        }
+        
+        return max;
+    }
+    
+    public Wrapper _maximalRectangle(char[][] matrix, int i, int j) {
+        if (i < 0 || j < 0 || i >= matrix.length || j >= matrix[i].length|| matrix[i][j] == 0) {
+            return null;
+        }
+        
+        if (p[i][j] != null) return p[i][j];
+        
+        p[i][j] = new Wrapper();
+        p[i][j].row = 1;
+        p[i][j].col = 1;
+        
+        Wrapper right =  _maximalRectangle(matrix, i + 0, j + 1);
+        Wrapper down =  _maximalRectangle(matrix, i +1, j);
+        if (right != null && down != null) {
+            p[i][j].row = 1 + Math.min(right.row, down.row);
+            p[i][j].col = 1 + Math.min(right.col, down.col);;
+        } else if (right != null) {
+            p[i][j].row = 1;
+            p[i][j].col = right.col +1;
+        } else if (down != null) {
+            p[i][j].row = down.row +1;
+            p[i][j].col = 1;
+        }
+        max = Math.max(max, p[i][j].row * p[i][j].col);
+        return p[i][j];
+    }
+    public boolean isMatch(String s, String p) {
+        return isMatch(s, p, 0, 0);
+    }
+    public boolean isMatch(String s, String p, int i, int j) {
+        if (j >= p.length()) {
+            if (i < s.length()) {
+                return false;
+            }
+            return true;
+        }
+        
+        if (j < p.length() - 1 && p.charAt(j + 1) == '*') {
+            return isMatch(s, p, i, j + 2)
+            || (i < s.length() && s.charAt(i) == p.charAt(j) || '.' == p.charAt(j) ) && isMatch(s, p, i + 1, j);
+        }
+        if (i < s.length() && (p.charAt(j) == '.' || s.charAt(i) == p.charAt(j))) {
+            return  isMatch(s, p, i + 1, j + 1); 
+        }
+        return false;
+    }
 }
